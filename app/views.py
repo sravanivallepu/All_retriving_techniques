@@ -70,15 +70,37 @@ def display_accessrecords(request):
     LARO=Access_Record.objects.all()
     LARO=Access_Record.objects.filter(date='2002-10-06')
     LARO=Access_Record.objects.filter(date__gt='2002-10-06')
-   # LARO=Access_Record.objects.filter(date__lte='1995-01-18')
+    LARO=Access_Record.objects.filter(date__lte='1995-01-18')
     LARO=Access_Record.objects.filter(date__year='2002')
-    #LARO=Access_Record.objects.filter(date__month='07')
-    #LARO=Access_Record.objects.filter(date__day='12')
-    #LARO=Access_Record.objects.filter(date__year__gte='2020')
-    #LARO=Access_Record.objects.filter(date__year__lte='2000')
-    #LARO=Access_Record.objects.filter(date__day__gt='12')
+    LARO=Access_Record.objects.filter(date__month='07')
+    LARO=Access_Record.objects.filter(date__day='12')
+    LARO=Access_Record.objects.filter(date__year__gte='2020')
+    LARO=Access_Record.objects.filter(date__year__lte='2000')
+    LARO=Access_Record.objects.filter(date__day__gt='12')
     
 
     d={'LARO':LARO}
     return render(request,'display_accessrecords.html',d)
+
+def update_webpages(request):
+    Webpage.objects.filter(name='Rahul').update(url='http://KLRahul.in')
+    Webpage.objects.filter(topic_name='Cricket').update(url='http://IndianTeam.in')
+    Webpage.objects.filter(name='Dhoni').update(topic_name='Foot Ball')
+    Webpage.objects.filter(name='Hardik').update(url='http://hardik.in')
+    Webpage.objects.all().update(url='http://hardik.in')
+    CTO=Topic.objects.get(topic_name='Cricket')
+    Webpage.objects.update_or_create(name='Dhoni',defaults={'url':'http://Dhoni.in','topic_name':CTO})
+    Webpage.objects.update_or_create(name='Hardik',defaults={'url':'http://hardik.com','topic_name':CTO})
+    Webpage.objects.update_or_create(name='Chahal',defaults={'url':'http://chahal.com','topic_name':CTO})
+    
+
+    LWO=Webpage.objects.all()
+    d={'LWO':LWO}
+    return render(request,'display_webpages.html',d)
+
+def delete_webpages(request):
+    Webpage.objects.filter(name='Chahal').delete()
+    LWO=Webpage.objects.all()
+    d={'LWO':LWO}
+    return render(request,'display_webpages.html',d)
 
